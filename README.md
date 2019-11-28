@@ -1,6 +1,6 @@
 # AVR-snes-controller
 
-This work is released under MIT License.
+This firmware source code (work) is released under MIT License.
 
 Parallelize (lagless) the serial output from a SNES controller for use with a Neo Geo or other applications
 
