@@ -48,10 +48,10 @@ Controller_latch Alias Porta.0                              'Output
 Controller_clk Alias Porta.1                                'Output
 Controller_serial Alias Pind.5                              'Input
 
-Pad_a Alias Portb.0
-Pad_b Alias Portb.1
-Pad_x Alias Portb.2
-Pad_y Alias Portb.3
+Pad_y Alias Portb.0                                         'Neo Geo A
+Pad_b Alias Portb.1                                         'Neo Geo B
+Pad_x Alias Portb.2                                         'Neo Geo C
+Pad_a Alias Portb.3                                         'Neo Geo D
 
 Pad_up Alias Portb.4
 Pad_down Alias Portb.5
