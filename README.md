@@ -1,5 +1,5 @@
-## SNES controller implementation on the Neo Geo
-# A lagless implementation of a SNES controller for use on the Neo Geo, using the ATTINY2313
+# SNES controller implementation on the Neo Geo
+## A lagless implementation of a SNES controller for use on the Neo Geo, using the ATTINY2313
 
 This firmware source code (work) is released under MIT License.  Do not remove the license or remove the credit.
 
