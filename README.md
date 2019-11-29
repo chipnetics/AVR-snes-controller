@@ -7,6 +7,6 @@ SNES controllers can be used as a substitute for the original Neo Geo controller
 
 The beautiful thing about this implementation is that it is LAGLESS. Even though the serial data from the SNES must be converted to parallel, an entire polling loop takes .098875mS, while a 60fps frame draw means a new frame every 16.67mS (so, ~168 polls per frame!).
 
-# You can view the project writeup here https://chipnetics.com/projects/fw/snesparallel/
+## You can view the project writeup here https://chipnetics.com/projects/fw/snesparallel/
 
-# Or additionally on hackaday https://hackaday.io/project/168676-snes-controller-implementation-on-the-neo-geo
+## Or additionally on hackaday https://hackaday.io/project/168676-snes-controller-implementation-on-the-neo-geo
