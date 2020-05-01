@@ -31,7 +31,7 @@ $crystal = 8000000
 'Data Direction Register. 0 = Input, 1 = Output
 
 Ddrb = &B11111111                                           ' Output for a,b,x,y,up,down,left,right
-Ddrd = &B00001111                                           ' [4]Input for Serial | [3,2,1,0] Output for select,start,l,r
+Ddrd = &B00001111                                           ' [5]Input for Serial | [3,2,1,0] Output for select,start,l,r
 Ddra = &B00000011                                           ' [1]Output for clk | [0]Output for latch
 
 'PINx - Port X Input Pins Register (READING)
@@ -41,7 +41,7 @@ Ddra = &B00000011                                           ' [1]Output for clk 
 'PORTx - Port X Data Register. (OUTPUTTING)
 'Stores logic values currently being OUTPUTTED on the physical pinds of PORTx
 Portb = &B11111111
-Portd = &B00011111                                          'Internal pullup on D.5 - set to input but outputting 1
+Portd = &B00101111                                          'Internal pullup on D.5 - set to input but outputting 1
 Porta = &B00000010
 
 Controller_latch Alias Porta.0                              'Output
@@ -86,7 +86,6 @@ Pad_r Alias Portd.3
 ' Neo Geo CPU probably does not poll this fast (60hz?) so when it does sample everything
 ' will be setup high/low and will appear as parallel data.
 '--------------------------------------------------------------------------------
-
 Pollcontroller:
 
 'Controller clock normally high
@@ -133,7 +132,7 @@ dec R17
 brne y_clock_pulse_width
 Controller_clk = 0                                          'CPU fetches falling edge
 
-' First sample is on the falling edge. (for B Button)
+' First sample is on the falling edge. (for Y Button)
 If Controller_serial = 0 Then
       Pad_y = 0
 Else
@@ -155,7 +154,7 @@ dec R17
 brne select_clock_pulse_width
 Controller_clk = 0                                          'CPU fetches falling edge
 
-' First sample is on the falling edge. (for B Button)
+' First sample is on the falling edge. (for Select Button)
 If Controller_serial = 0 Then
       Pad_select = 0
 Else
@@ -177,7 +176,7 @@ dec R17
 brne start_clock_pulse_width
 Controller_clk = 0                                          'CPU fetches falling edge
 
-' First sample is on the falling edge. (for B Button)
+' First sample is on the falling edge. (for Start Button)
 If Controller_serial = 0 Then
       Pad_start = 0
 Else
@@ -191,7 +190,7 @@ brne start_low_pulse_width
 NOP
 ''''''''''  START BUTTON END '''''''''''''''''''''''
 
-''''''''''  up BUTTON up '''''''''''''''''''''''
+''''''''''  up BUTTON START '''''''''''''''''''''''
 Controller_clk = 1                                          'Controller latches data rising edge
 ldi R17, $10                                                '
 Up_clock_pulse_width:
@@ -199,7 +198,7 @@ dec R17
 brne up_clock_pulse_width
 Controller_clk = 0                                          'CPU fetches falling edge
 
-' First sample is on the falling edge. (for B Button)
+' First sample is on the falling edge. (for Up Button)
 If Controller_serial = 0 Then
      Pad_up = 0
 Else
@@ -213,7 +212,7 @@ brne up_low_pulse_width
 NOP
 ''''''''''  up BUTTON END '''''''''''''''''''''''
 
-''''''''''  down BUTTON down '''''''''''''''''''''''
+''''''''''  down BUTTON START '''''''''''''''''''''''
 Controller_clk = 1                                          'Controller latches data rising edge
 ldi R17, $10                                                '
 Down_clock_pulse_width:
@@ -221,7 +220,7 @@ dec R17
 brne down_clock_pulse_width
 Controller_clk = 0                                          'CPU fetches falling edge
 
-' First sample is on the falling edge. (for B Button)
+' First sample is on the falling edge. (for Down Button)
 If Controller_serial = 0 Then
       Pad_down = 0
 Else
@@ -235,7 +234,7 @@ brne down_low_pulse_width
 NOP
 ''''''''''  down BUTTON END '''''''''''''''''''''''
 
-''''''''''  left BUTTON left '''''''''''''''''''''''
+''''''''''  left BUTTON START '''''''''''''''''''''''
 Controller_clk = 1                                          'Controller latches data rising edge
 ldi R17, $10                                                '
 Left_clock_pulse_width:
@@ -243,7 +242,7 @@ dec R17
 brne left_clock_pulse_width
 Controller_clk = 0                                          'CPU fetches falling edge
 
-' First sample is on the falling edge. (for B Button)
+' First sample is on the falling edge. (for Left Button)
 If Controller_serial = 0 Then
       Pad_left = 0
 Else
@@ -258,7 +257,7 @@ NOP
 ''''''''''  left BUTTON END '''''''''''''''''''''''
 
 
-''''''''''  right BUTTON right '''''''''''''''''''''''
+''''''''''  right BUTTON START '''''''''''''''''''''''
 Controller_clk = 1                                          'Controller latches data rising edge
 ldi R17, $10                                                '
 Right_clock_pulse_width:
@@ -266,7 +265,7 @@ dec R17
 brne right_clock_pulse_width
 Controller_clk = 0                                          'CPU fetches falling edge
 
-' First sample is on the falling edge. (for B Button)
+' First sample is on the falling edge. (for Right Button)
 If Controller_serial = 0 Then
       Pad_right = 0
 Else
@@ -288,7 +287,7 @@ dec R17
 brne a_clock_pulse_width
 Controller_clk = 0                                          'CPU fetches falling edge
 
-' First sample is on the falling edge. (for B Button)
+' First sample is on the falling edge. (for A Button)
 If Controller_serial = 0 Then
       Pad_a = 0
 Else
@@ -302,7 +301,7 @@ brne a_low_pulse_width
 NOP
 ''''''''''  a BUTTON END '''''''''''''''''''''''
 
-''''''''''  x BUTTON x '''''''''''''''''''''''
+''''''''''  x BUTTON START '''''''''''''''''''''''
 Controller_clk = 1                                          'Controller latches data rising edge
 ldi R17, $10                                                '
 X_clock_pulse_width:
@@ -310,7 +309,7 @@ dec R17
 brne x_clock_pulse_width
 Controller_clk = 0                                          'CPU fetches falling edge
 
-' First sample is on the falling edge. (for B Button)
+' First sample is on the falling edge. (for X Button)
 If Controller_serial = 0 Then
       Pad_x = 0
 Else
@@ -325,7 +324,7 @@ NOP
 ''''''''''  x BUTTON END '''''''''''''''''''''''
 
 
-''''''''''  l BUTTON l '''''''''''''''''''''''
+''''''''''  l BUTTON START '''''''''''''''''''''''
 Controller_clk = 1                                          'Controller latches data rising edge
 ldi R17, $10                                                '
 L_clock_pulse_width:
@@ -333,7 +332,7 @@ dec R17
 brne l_clock_pulse_width
 Controller_clk = 0                                          'CPU fetches falling edge
 
-' First sample is on the falling edge. (for B Button)
+' First sample is on the falling edge. (for l Button)
 If Controller_serial = 0 Then
       Pad_l = 0
 Else
@@ -347,7 +346,7 @@ brne l_low_pulse_width
 NOP
 ''''''''''  l BUTTON END '''''''''''''''''''''''
 
-''''''''''  r BUTTON r '''''''''''''''''''''''
+''''''''''  r BUTTON START '''''''''''''''''''''''
 Controller_clk = 1                                          'Controller latches data rising edge
 ldi R17, $10                                                '
 R_clock_pulse_width:
@@ -355,7 +354,7 @@ dec R17
 brne r_clock_pulse_width
 Controller_clk = 0                                          'CPU fetches falling edge
 
-' First sample is on the falling edge. (for B Button)
+' First sample is on the falling edge. (for r Button)
 If Controller_serial = 0 Then
       Pad_r = 0
 Else
@@ -381,7 +380,7 @@ dec R17
 brne unmap1_clock_pulse_width
 Controller_clk = 0                                          'CPU fetches falling edge
 
-' First sample is on the falling edge. (for B Button)
+' First sample is on the falling edge.
 If Controller_serial = 0 Then
       NOP
 Else
@@ -402,7 +401,7 @@ dec R17
 brne unmap2_clock_pulse_width
 Controller_clk = 0                                          'CPU fetches falling edge
 
-' First sample is on the falling edge. (for B Button)
+' First sample is on the falling edge.
 If Controller_serial = 0 Then
       NOP
 Else
@@ -423,7 +422,7 @@ dec R17
 brne unmap3_clock_pulse_width
 Controller_clk = 0                                          'CPU fetches falling edge
 
-' First sample is on the falling edge. (for B Button)
+' First sample is on the falling edge.
 If Controller_serial = 0 Then
       NOP
 Else
@@ -444,7 +443,7 @@ dec R17
 brne unmap4_clock_pulse_width
 Controller_clk = 0                                          'CPU fetches falling edge
 
-' First sample is on the falling edge. (for B Button)
+' First sample is on the falling edge.
 If Controller_serial = 0 Then
       NOP
 Else
